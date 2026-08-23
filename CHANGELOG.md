@@ -7,6 +7,19 @@ stable release.
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-08-23
+
+### Added
+
+- Windows x64 npm CLI launcher for the audited source release.
+- Explicit per-user state root defaults under `%LOCALAPPDATA%` for npm installs.
+
+### Security
+
+- The npm tarball contains no `node_modules`, Tencent SDK source, credentials,
+  or runtime state. Tencent dependencies remain registry-resolved runtime
+  dependencies and retain their upstream licensing boundary.
+
 ## [0.2.0] - 2026-08-23
 
 ### Added

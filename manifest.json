@@ -1,13 +1,13 @@
 {
   "name": "qq-to-codex-app-server-relay",
-  "version": "0.2.0",
-  "status": "public-source-released",
+  "version": "0.2.1",
+  "status": "public-source-and-npm-release",
   "owner": "user",
   "lifecycle": "independent-runtime",
   "visibilityGate": "public-repository-root-verified",
   "humanTestStatus": "qq-command-smoke-passed",
   "productionDeploymentStatus": "not-approved",
-  "distribution": "source-only",
+  "distribution": "source-plus-thin-windows-x64-npm-cli",
   "openclawDependency": false,
   "runtime": {
     "semanticCore": "rust",

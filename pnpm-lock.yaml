@@ -6,7 +6,17 @@ settings:
 
 importers:
 
-  .: {}
+  .:
+    dependencies:
+      '@tencent-connect/qqbot-connector':
+        specifier: 1.2.0
+        version: 1.2.0
+      '@tencent-connect/qqbot-nodejs':
+        specifier: 1.0.4
+        version: 1.0.4
+      ajv:
+        specifier: 8.20.0
+        version: 8.20.0
 
   apps/qq-adapter:
     dependencies:

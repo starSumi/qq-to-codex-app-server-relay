@@ -14,8 +14,9 @@ Run these checks against the exact tree copied into a fresh public Git history:
 - [ ] `pnpm test`
 - [ ] `pnpm build`
 - [ ] Production dependency audits report no high or critical advisory.
-- [ ] The release is source-only: no artifact contains either Tencent package;
-      their missing distributable notices remain documented.
+- [ ] The source release and optional npm artifact contain no bundled Tencent
+      package source or `node_modules`; npm resolves those dependencies at
+      install time and their upstream terms remain the operator's boundary.
 - [ ] Current files and reachable public Git history contain no credential,
       private identifier, local absolute path, database, log, runtime artifact,
       or private author email.
