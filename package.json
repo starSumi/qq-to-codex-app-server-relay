@@ -1,10 +1,36 @@
 {
   "name": "qq-to-codex-app-server-relay",
-  "version": "0.2.0",
-  "private": true,
+  "version": "0.2.1",
+  "private": false,
   "description": "A Rust-first, fail-closed QQ relay for Codex app-server",
   "license": "MIT",
   "type": "module",
+  "bin": {
+    "qq-to-codex-app-server-relay": "bin/qq-to-codex-app-server-relay.mjs"
+  },
+  "files": [
+    "bin/",
+    "apps/qq-adapter/dist/",
+    "target/release/relay-core.exe",
+    "LICENSE",
+    "README.md",
+    "CHANGELOG.md",
+    "SECURITY.md",
+    "THIRD_PARTY_NOTICES.md",
+    "docs/security-model.md",
+    "docs/operations.md",
+    "manifest.json"
+  ],
+  "os": [
+    "win32"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "packageManager": "pnpm@10.26.0",
   "engines": {
     "node": ">=24.15.0",
@@ -15,6 +41,7 @@
     "pnpm": "10.26.0"
   },
   "scripts": {
+    "prepack": "pnpm build",
     "build": "pnpm schema:check && cargo build --workspace --locked --release && pnpm --filter @qq-codex/qq-adapter build",
     "build:debug": "cargo build --workspace --locked && pnpm --filter @qq-codex/qq-adapter build",
     "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm schema:check && cargo fmt --all --check && cargo clippy --workspace --all-targets --all-features --locked -- -D warnings",
@@ -27,5 +54,10 @@
     "start": "pnpm --filter @qq-codex/qq-adapter start",
     "test": "cargo test --workspace --all-features --locked && pnpm --filter @qq-codex/qq-adapter test",
     "typecheck": "pnpm --filter @qq-codex/qq-adapter typecheck"
+  },
+  "dependencies": {
+    "@tencent-connect/qqbot-connector": "1.2.0",
+    "@tencent-connect/qqbot-nodejs": "1.0.4",
+    "ajv": "8.20.0"
   }
 }

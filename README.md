@@ -71,10 +71,12 @@ Read [the security model](docs/security-model.md) before the first run.
 - Node.js `24.15.0` and pnpm `10.26.0`, pinned through Volta.
 - A mobile QQ account able to complete the official Tencent QQ Bot QR binding.
 
-This is a source-only release. The Tencent connector is published as
-`UNLICENSED`, and neither pinned Tencent package includes a distributable
-license file. Do not redistribute a binary or bundle containing them; see
-[the third-party notice](THIRD_PARTY_NOTICES.md).
+The GitHub release is source-first. The optional npm artifact is a thin
+Windows x64 launcher and does not bundle `node_modules` or Tencent package
+source. The Tencent connector is published as `UNLICENSED`, and neither
+pinned Tencent package includes a distributable license file. Do not
+redistribute a binary or bundle containing them; see [the third-party
+notice](THIRD_PARTY_NOTICES.md).
 
 ## Build
 
@@ -87,6 +89,25 @@ pnpm build
 
 `pnpm schema:generate` is the only supported way to refresh the checked-in
 Schema and TypeScript contract after changing Rust protocol types.
+
+## npm CLI (Windows x64)
+
+The public npm artifact is a thin Windows x64 launcher around the same
+Rust-first relay. It contains the compiled relay core and TypeScript adapter
+build, but never bundles `node_modules`, Tencent SDK source, credentials, or
+runtime state. Install it with:
+
+```powershell
+npm install --global qq-to-codex-app-server-relay
+qq-to-codex-app-server-relay
+```
+
+The launcher stores credentials, SQLite state, and the default workspace under
+`%LOCALAPPDATA%\\qq-to-codex-app-server-relay` unless the corresponding
+environment variables are explicitly set. The package is currently restricted
+to `win32/x64`; other platforms must use the source release and build locally.
+Review [the third-party notice](THIRD_PARTY_NOTICES.md) before distributing or
+embedding the package.
 
 ## Configure
 
