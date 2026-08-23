@@ -1,10 +1,10 @@
 {
   "name": "qq-to-codex-app-server-relay",
   "version": "0.2.0",
-  "status": "public-source-release-candidate",
+  "status": "public-source-released",
   "owner": "user",
   "lifecycle": "independent-runtime",
-  "visibilityGate": "fresh-public-repository-after-audit",
+  "visibilityGate": "public-repository-root-verified",
   "humanTestStatus": "qq-command-smoke-passed",
   "productionDeploymentStatus": "not-approved",
   "distribution": "source-only",
