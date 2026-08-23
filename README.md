@@ -98,8 +98,16 @@ build, but never bundles `node_modules`, Tencent SDK source, credentials, or
 runtime state. Install it with:
 
 ```powershell
-npm install --global qq-to-codex-app-server-relay
+npm install --global qq-to-codex-app-server-relay@0.2.1
+qq-to-codex-app-server-relay --version
 qq-to-codex-app-server-relay
+```
+
+The version command must print `0.2.1`. Confirm the registry release and
+`latest` tag with:
+
+```powershell
+npm view qq-to-codex-app-server-relay version dist-tags.latest --registry=https://registry.npmjs.org
 ```
 
 The launcher stores credentials, SQLite state, and the default workspace under
@@ -107,7 +115,8 @@ The launcher stores credentials, SQLite state, and the default workspace under
 environment variables are explicitly set. The package is currently restricted
 to `win32/x64`; other platforms must use the source release and build locally.
 Review [the third-party notice](THIRD_PARTY_NOTICES.md) before distributing or
-embedding the package.
+embedding the package. The complete install, first-run, state, diagnostics,
+upgrade, and publisher workflow is in the [npm CLI guide](docs/npm-cli.md).
 
 ### npm publishing helper
 
@@ -128,7 +137,7 @@ The input must be the authenticator setup key (Base32) or an `otpauth://` URI.
 npm recovery codes are not TOTP setup keys and cannot be used to calculate the
 six-digit publish OTP; use them only in npm's web recovery flow.
 
-This npm account uses WebAuthn security keys, so use this mode instead. It does
+If the npm account uses WebAuthn security keys, use this mode instead. It does
 not ask for a secret or pass `--otp`; npm opens the security-key challenge and
 Windows Hello or the browser completes it:
 
@@ -138,15 +147,16 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\publish-npm-with-totp.ps
 
 ## Configure
 
-After the build, the default first run needs no QQ credential variables:
+After the build, the default source first run needs no QQ credential variables:
 
 ```powershell
 pnpm start
 ```
 
-Scan the terminal QR code with mobile QQ. The adapter stores the returned bot
-credential at `state/qqbot-credentials.json`; later starts reuse it without
-rescanning. `state/` is ignored by Git, but the file contains a plaintext secret:
+Scan the terminal QR code with mobile QQ. The source adapter stores the returned
+bot credential at `state/qqbot-credentials.json`; the npm launcher instead uses
+`%LOCALAPPDATA%\\qq-to-codex-app-server-relay\\qqbot-credentials.json`. Later
+starts reuse it without rescanning. The file contains a plaintext secret:
 restrict its filesystem ACL, never copy it into the Codex workspace, and revoke
 the bot credential if the file is exposed.
 

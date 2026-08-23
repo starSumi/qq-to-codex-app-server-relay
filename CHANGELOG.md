@@ -7,6 +7,14 @@ stable release.
 
 ## [Unreleased]
 
+### Documentation
+
+- Documented the verified npm installation, Windows x64 state layout, first-run
+  QR lifecycle, diagnostics, upgrade behavior, and publisher authentication
+  routes.
+- Documented the distinction between npm tokens, WebAuthn security keys, TOTP
+  setup keys, and recovery codes.
+
 ## [0.2.1] - 2026-08-23
 
 ### Added
@@ -19,6 +27,8 @@ stable release.
 - The npm tarball contains no `node_modules`, Tencent SDK source, credentials,
   or runtime state. Tencent dependencies remain registry-resolved runtime
   dependencies and retain their upstream licensing boundary.
+- Published release verification covered the public registry version, `latest`
+  tag, global installation, and CLI `--version` smoke test.
 
 ## [0.2.0] - 2026-08-23
 

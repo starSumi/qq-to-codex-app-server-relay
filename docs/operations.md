@@ -1,5 +1,39 @@
 # Operations
 
+## npm installation path
+
+The public npm artifact is the supported convenience path for Windows x64. It
+contains the compiled Rust core and TypeScript adapter and starts the same
+relay described below. Install and verify it with:
+
+```powershell
+npm install --global qq-to-codex-app-server-relay@0.2.1
+qq-to-codex-app-server-relay --version
+npm view qq-to-codex-app-server-relay version dist-tags.latest --registry=https://registry.npmjs.org
+```
+
+The npm launcher requires Node.js `>=24.15.0`, a local Codex CLI with
+`app-server` support, and Windows x64. Its state defaults are documented in
+the [npm CLI guide](npm-cli.md). The source checkout remains the portable and
+auditable path for other platforms.
+
+Start it with:
+
+```powershell
+qq-to-codex-app-server-relay
+```
+
+On the first run, scan the official QQ QR code. A successful launch reports
+credential completion, `Codex app-server ready`, `QQ gateway connected`, and
+`relay active; waiting for QQ messages`. A missing provider or Codex runtime is
+reported as a relay reference error; it is independent of QQ QR binding.
+
+For upgrades, install the desired immutable version again. Uninstalling the
+package does not delete `%LOCALAPPDATA%\\qq-to-codex-app-server-relay`; preserve
+or rotate its credential before removing state manually.
+
+See [npm-cli.md](npm-cli.md) for diagnostics and the publisher workflow.
+
 ## Deployment shape
 
 Run one adapter/core pair for one QQ credential set and one SQLite database.

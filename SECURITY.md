@@ -34,3 +34,12 @@ boundary. It also enables configured external Codex tools and admits every
 non-bot sender unless the operator selects safe mode. Use a dedicated
 low-privilege host or OS account and review
 [`docs/security-model.md`](docs/security-model.md) before operation.
+
+## npm publisher credentials
+
+The public npm package is separate from runtime QQ and Codex credentials. Keep
+npm tokens in user-level npm configuration or use a WebAuthn security key; do
+not commit `.npmrc`, pass a token on a command line, or put publisher secrets in
+the relay state, `.env.example`, logs, or release artifacts. Recovery codes are
+not TOTP setup keys. See [`docs/npm-cli.md`](docs/npm-cli.md) for the verified
+install, upgrade, diagnostics, and publication workflow.

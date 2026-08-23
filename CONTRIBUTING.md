@@ -41,3 +41,17 @@ Pull requests must explain the trust boundary affected, failure and recovery
 behavior, data lifecycle impact, compatibility implications, validation, and
 rollback. Dependency updates must retain exact lockfiles and pass the security
 workflow.
+
+## npm release documentation
+
+The npm artifact is currently a Windows x64 convenience distribution. Before a
+release, run the complete source gate and confirm the package contents do not
+include `node_modules`, Tencent SDK source, credentials, databases, Codex homes,
+or local paths. Publish only from the public checkout; the private development
+checkout is intentionally rejected by the helper.
+
+Use [`docs/npm-cli.md`](docs/npm-cli.md) for the install and verification
+workflow. Publishing authentication is account-owned: use the configured npm
+token, a WebAuthn security key, or a real TOTP setup key. Recovery codes are not
+TOTP input. Never put any of these values in Git, a shell command, or a release
+artifact.
