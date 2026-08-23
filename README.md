@@ -128,6 +128,14 @@ The input must be the authenticator setup key (Base32) or an `otpauth://` URI.
 npm recovery codes are not TOTP setup keys and cannot be used to calculate the
 six-digit publish OTP; use them only in npm's web recovery flow.
 
+This npm account uses WebAuthn security keys, so use this mode instead. It does
+not ask for a secret or pass `--otp`; npm opens the security-key challenge and
+Windows Hello or the browser completes it:
+
+```powershell
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\publish-npm-with-totp.ps1 -SecurityKey -Publish
+```
+
 ## Configure
 
 After the build, the default first run needs no QQ credential variables:

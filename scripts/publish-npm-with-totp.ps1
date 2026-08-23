@@ -2,6 +2,7 @@
 param(
   [switch]$Publish,
   [switch]$Build,
+  [switch]$SecurityKey,
   [string]$SecretFile,
   [string]$SecretEnvironmentVariable = "NPM_TOTP_SECRET",
   [string]$Registry = "https://registry.npmjs.org"
@@ -158,6 +159,21 @@ $publishedVersion = & npm.cmd view "$($package.name)@$($package.version)" versio
   --registry=$Registry 2>$null
 if ($LASTEXITCODE -eq 0 -and $publishedVersion) {
   throw "$($package.name)@$($package.version) already exists on $Registry."
+}
+
+if ($SecurityKey) {
+  if (-not $Publish) {
+    throw "Use -SecurityKey together with -Publish. npm will open the WebAuthn/Windows Hello challenge interactively."
+  }
+
+  Write-Host "Publishing with npm WebAuthn security key; follow the browser or Windows Hello prompt..."
+  & npm.cmd publish --ignore-scripts --registry=$Registry
+  if ($LASTEXITCODE -ne 0) {
+    throw "npm publish with security key failed with exit code $LASTEXITCODE. Retry while the browser and Windows Hello prompt are available."
+  }
+
+  Write-Host "Published. Verify with: npm view $($package.name) version --registry=$Registry"
+  exit 0
 }
 
 $totp = Get-Totp (Get-SecretText)
