@@ -109,6 +109,21 @@ to `win32/x64`; other platforms must use the source release and build locally.
 Review [the third-party notice](THIRD_PARTY_NOTICES.md) before distributing or
 embedding the package.
 
+### npm publishing helper
+
+Maintainers can publish the current release without copying an OTP into a
+shell command. The helper reads the TOTP secret through hidden local input,
+generates the current code in memory, and passes it directly to npm:
+
+```powershell
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\publish-npm-with-totp.ps1 -Publish
+```
+
+Use `-Build` when the release artifacts need rebuilding first. The secret is
+not written to disk or printed. A secret already held in an environment
+variable can be selected with `-SecretEnvironmentVariable NAME`; a local
+secret file can be selected with `-SecretFile PATH`.
+
 ## Configure
 
 After the build, the default first run needs no QQ credential variables:
