@@ -9,6 +9,7 @@ on:
       - "package.json"
       - "apps/**/package.json"
       - "pnpm-lock.yaml"
+      - "scripts/**"
       - ".github/workflows/security.yml"
   push:
     branches: [main]
