@@ -109,6 +109,33 @@ to `win32/x64`; other platforms must use the source release and build locally.
 Review [the third-party notice](THIRD_PARTY_NOTICES.md) before distributing or
 embedding the package.
 
+### npm publishing helper
+
+Maintainers can publish the current release without copying an OTP into a
+shell command. The helper reads the TOTP secret through hidden local input,
+generates the current code in memory, and passes it directly to npm:
+
+```powershell
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\publish-npm-with-totp.ps1 -Publish
+```
+
+Use `-Build` when the release artifacts need rebuilding first. The secret is
+not written to disk or printed. A secret already held in an environment
+variable can be selected with `-SecretEnvironmentVariable NAME`; a local
+secret file can be selected with `-SecretFile PATH`.
+
+The input must be the authenticator setup key (Base32) or an `otpauth://` URI.
+npm recovery codes are not TOTP setup keys and cannot be used to calculate the
+six-digit publish OTP; use them only in npm's web recovery flow.
+
+This npm account uses WebAuthn security keys, so use this mode instead. It does
+not ask for a secret or pass `--otp`; npm opens the security-key challenge and
+Windows Hello or the browser completes it:
+
+```powershell
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\publish-npm-with-totp.ps1 -SecurityKey -Publish
+```
+
 ## Configure
 
 After the build, the default first run needs no QQ credential variables:
