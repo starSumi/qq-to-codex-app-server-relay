@@ -33,10 +33,34 @@ Run these checks against the exact tree copied into a fresh public Git history:
       the audited tree rather than private repository history.
 - [ ] Public CI passes before a release tag is published.
 
-The v0.2.0 release record is completed during publication. The local human smoke
-test confirmed a QQ inbound message, Codex command execution, thread identity,
-durable reply delivery, and QQ API `200 OK`. This test did not approve the
-default profile for production deployment.
+The v0.2.1 release record was completed on 2026-08-23. The public npm package
+`qq-to-codex-app-server-relay@0.2.1` was published with public access, the
+registry `latest` tag resolved to `0.2.1`, and a clean global installation
+reported `qq-to-codex-app-server-relay --version` as `0.2.1`. The published
+Windows x64 tarball contained 35 files, with a 2.2 MB compressed package and a
+4.7 MB unpacked payload; no runtime credentials or `node_modules` were included.
+
+The local human smoke test also confirmed a QQ inbound message, Codex command
+execution, thread identity, durable reply delivery, and QQ API `200 OK`. These
+checks prove the release and integration path, but do not approve the default
+profile for production deployment.
+
+## npm publisher authentication
+
+Publishing is an account-level operation and is separate from QQ or Codex
+runtime credentials. The supported routes are:
+
+- A user-level npm token configured by npm, followed by
+  `npm publish --registry=https://registry.npmjs.org --access public`.
+- An interactive WebAuthn security key or Windows Hello challenge using
+  `scripts/publish-npm-with-totp.ps1 -SecurityKey -Publish`.
+- A TOTP setup key or `otpauth://` URI using the helper's default `-Publish`
+  mode.
+
+Recovery codes are not TOTP setup keys, and an npm token cannot be converted
+into a six-digit TOTP value. Never commit `.npmrc`, pass a token on the command
+line, or store any publisher secret in the repository. Verify a release with
+`npm view` and `npm whoami`; neither command requires printing the secret.
 
 ## Production deployment gate
 

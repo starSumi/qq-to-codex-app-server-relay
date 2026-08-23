@@ -69,6 +69,33 @@ purged after `RELAY_RETENTION_DAYS` (30 by default). Pending outbox entries and
 active processing records are not aged out. Codex stores its own thread history
 under `CODEX_HOME`; deleting relay metadata does not delete that history.
 
+## npm distribution and publisher credentials
+
+The npm package is a distribution boundary, not a runtime trust boundary. It
+contains the compiled relay core and adapter build, but not `node_modules`, QQ
+credentials, Codex credentials, SQLite state, or the publisher's npm token.
+The Windows launcher keeps its default relay state under
+`%LOCALAPPDATA%\\qq-to-codex-app-server-relay`; the source build uses its
+configured state paths.
+
+Publishing credentials are separate from the credentials used by a running
+relay. Keep npm authentication in the publisher's user-level npm configuration
+or an approved hardware-backed flow. Never commit `.npmrc`, pass an npm token
+as a command-line argument, or copy it into `.env.example`, logs, issues, or
+release artifacts. Verify identity with `npm whoami` without printing the
+credential itself.
+
+WebAuthn security keys and Windows Hello keep the private credential in the
+authenticator or OS credential manager; they do not provide an exportable TOTP
+setup key. The publish helper's TOTP mode therefore accepts only an
+authenticator setup key or `otpauth://` URI. npm recovery codes are a recovery
+mechanism, not TOTP input, and npm tokens cannot be used as TOTP secrets.
+
+Rotate or revoke a token or bot credential immediately if it appears in Git,
+logs, terminal history, a screenshot, or a shared environment. The package
+version and tarball are public; the authentication material used to publish it
+must remain private.
+
 The database is not encrypted at rest. Restrict its filesystem ACL, keep it
 outside synchronized/public folders and the Codex workspace, and use full-disk
 encryption where required.

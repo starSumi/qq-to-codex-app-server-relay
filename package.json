@@ -19,6 +19,7 @@
     "THIRD_PARTY_NOTICES.md",
     "docs/security-model.md",
     "docs/operations.md",
+    "docs/npm-cli.md",
     "manifest.json"
   ],
   "os": [

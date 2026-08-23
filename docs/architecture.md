@@ -20,6 +20,40 @@ The adapter does not decide authorization, sandbox policy, thread ownership, or
 recovery. Those decisions remain in the Rust core so every inbound transport
 would receive identical semantics.
 
+## Distribution and operator lifecycle
+
+The published Windows package adds only a packaging boundary around the same
+runtime:
+
+```text
+npm global shim
+  -> bin/qq-to-codex-app-server-relay.mjs
+  -> apps/qq-adapter/dist/main.js
+  -> target/release/relay-core.exe
+```
+
+The shim checks `win32/x64`, resolves the per-user state root, derives default
+paths for the credential file, SQLite database, and workspace, then launches
+the adapter. It does not replace the app-server protocol, introduce OpenClaw,
+or make authorization decisions. Source builds invoke the adapter directly and
+retain the same Rust/TypeScript ownership boundaries.
+
+The operator lifecycle is:
+
+```text
+install and verify version
+  -> start one relay instance
+  -> QQ QR binding or credential-file load
+  -> Codex app-server readiness
+  -> QQ gateway connection
+  -> relay activation
+  -> inbound QQ message -> durable Codex turn -> QQ delivery
+```
+
+The readiness messages correspond to actual process boundaries. A successful
+QQ gateway connection does not prove that a Codex turn or model provider is
+available; those failures retain a relay reference for correlation.
+
 ## QQ credential onboarding
 
 The TypeScript adapter resolves one QQ Bot credential source in strict priority
