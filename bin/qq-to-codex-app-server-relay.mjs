@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { access, mkdir } from "node:fs/promises";
+import { access } from "node:fs/promises";
 import { constants } from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -74,7 +74,6 @@ async function start() {
   const stateRoot = path.resolve(
     process.env.RELAY_STATE_DIR?.trim() || defaultStateRoot(),
   );
-  await mkdir(path.join(stateRoot, "workspace"), { recursive: true });
   const environment = {
     ...process.env,
     CODEX_WORKSPACE:
