@@ -1,0 +1,7 @@
+packages:
+  - apps/*
+
+blockExoticSubdeps: true
+minimumReleaseAge: 10080
+onlyBuiltDependencies: []
+trustPolicy: no-downgrade

@@ -1,0 +1,6 @@
+* @starSumi
+
+/.github/ @starSumi
+/crates/relay-core/ @starSumi
+/crates/relay-protocol/ @starSumi
+/schemas/ @starSumi

@@ -1,0 +1,31 @@
+{
+  "name": "qq-to-codex-app-server-relay",
+  "version": "0.2.0",
+  "private": true,
+  "description": "A Rust-first, fail-closed QQ relay for Codex app-server",
+  "license": "MIT",
+  "type": "module",
+  "packageManager": "pnpm@10.26.0",
+  "engines": {
+    "node": ">=24.15.0",
+    "pnpm": ">=10.26.0"
+  },
+  "volta": {
+    "node": "24.15.0",
+    "pnpm": "10.26.0"
+  },
+  "scripts": {
+    "build": "pnpm schema:check && cargo build --workspace --locked --release && pnpm --filter @qq-codex/qq-adapter build",
+    "build:debug": "cargo build --workspace --locked && pnpm --filter @qq-codex/qq-adapter build",
+    "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm schema:check && cargo fmt --all --check && cargo clippy --workspace --all-targets --all-features --locked -- -D warnings",
+    "dev": "pnpm build:debug && pnpm --filter @qq-codex/qq-adapter start",
+    "format": "cargo fmt --all && pnpm --dir apps/qq-adapter exec prettier --write . ../../README.md ../../SECURITY.md ../../CONTRIBUTING.md ../../CHANGELOG.md ../../THIRD_PARTY_NOTICES.md ../../docs ../../.github ../../package.json ../../manifest.json ../../pnpm-workspace.yaml",
+    "format:check": "pnpm --dir apps/qq-adapter exec prettier --check . ../../README.md ../../SECURITY.md ../../CONTRIBUTING.md ../../CHANGELOG.md ../../THIRD_PARTY_NOTICES.md ../../docs ../../.github ../../package.json ../../manifest.json ../../pnpm-workspace.yaml",
+    "lint": "pnpm --filter @qq-codex/qq-adapter lint",
+    "schema:generate": "cargo run --locked -q -p relay-protocol --bin export-schema -- --out schemas/relay-wire.schema.json && pnpm --filter @qq-codex/qq-adapter generate:contract",
+    "schema:check": "cargo run --locked -q -p relay-protocol --bin export-schema -- --check schemas/relay-wire.schema.json && pnpm --filter @qq-codex/qq-adapter generate:contract:check",
+    "start": "pnpm --filter @qq-codex/qq-adapter start",
+    "test": "cargo test --workspace --all-features --locked && pnpm --filter @qq-codex/qq-adapter test",
+    "typecheck": "pnpm --filter @qq-codex/qq-adapter typecheck"
+  }
+}

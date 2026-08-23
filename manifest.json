@@ -1,0 +1,25 @@
+{
+  "name": "qq-to-codex-app-server-relay",
+  "version": "0.2.0",
+  "status": "public-source-release-candidate",
+  "owner": "user",
+  "lifecycle": "independent-runtime",
+  "visibilityGate": "fresh-public-repository-after-audit",
+  "humanTestStatus": "qq-command-smoke-passed",
+  "productionDeploymentStatus": "not-approved",
+  "distribution": "source-only",
+  "openclawDependency": false,
+  "runtime": {
+    "semanticCore": "rust",
+    "qqAdapter": "typescript",
+    "packageManager": "pnpm@10.26.0",
+    "nodeManager": "volta",
+    "rustToolchain": "1.94.0"
+  },
+  "protocolSsot": "crates/relay-protocol/src/lib.rs",
+  "generatedSchema": "schemas/relay-wire.schema.json",
+  "qqSdk": "@tencent-connect/qqbot-nodejs@1.0.4",
+  "codexTransport": "codex app-server --stdio JSONL",
+  "verifiedCodexCli": "0.148.0",
+  "checkedAt": "2026-08-23"
+}

@@ -1,0 +1,35 @@
+{
+  "name": "@qq-codex/qq-adapter",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Thin Tencent QQ SDK adapter for the Rust relay core",
+  "license": "MIT",
+  "type": "module",
+  "exports": "./dist/main.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "generate:contract": "node scripts/generate-contract.mjs --write",
+    "generate:contract:check": "node scripts/generate-contract.mjs --check",
+    "lint": "eslint . --max-warnings 0",
+    "start": "node --enable-source-maps dist/main.js",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@tencent-connect/qqbot-connector": "1.2.0",
+    "@tencent-connect/qqbot-nodejs": "1.0.4",
+    "ajv": "8.20.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "24.10.1",
+    "eslint": "10.6.0",
+    "json-schema-to-typescript": "15.0.4",
+    "prettier": "3.6.2",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.63.0",
+    "vitest": "4.1.10"
+  }
+}

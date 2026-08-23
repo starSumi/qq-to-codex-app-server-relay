@@ -1,0 +1,341 @@
+{
+  "$defs": {
+    "AdapterIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "version"
+      ],
+      "type": "object"
+    },
+    "AdapterToCore": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "adapter": {
+              "$ref": "#/$defs/AdapterIdentity"
+            },
+            "protocol_version": {
+              "type": "string"
+            },
+            "schema_sha256": {
+              "type": "string"
+            },
+            "type": {
+              "const": "hello",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "protocol_version",
+            "schema_sha256",
+            "adapter"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "protocol_version": {
+              "type": "string"
+            },
+            "type": {
+              "const": "activate",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "protocol_version"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "message": {
+              "$ref": "#/$defs/InboundMessage"
+            },
+            "protocol_version": {
+              "type": "string"
+            },
+            "type": {
+              "const": "inbound",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "protocol_version",
+            "message"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "outbox_id": {
+              "type": "string"
+            },
+            "protocol_version": {
+              "type": "string"
+            },
+            "type": {
+              "const": "delivery_ack",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "protocol_version",
+            "outbox_id"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "protocol_version": {
+              "type": "string"
+            },
+            "type": {
+              "const": "shutdown",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "protocol_version"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "ChatScope": {
+      "enum": [
+        "c2c",
+        "group"
+      ],
+      "type": "string"
+    },
+    "ChatTarget": {
+      "additionalProperties": false,
+      "properties": {
+        "scope": {
+          "$ref": "#/$defs/ChatScope"
+        },
+        "target_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "scope",
+        "target_id"
+      ],
+      "type": "object"
+    },
+    "CoreToAdapter": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "core_version": {
+              "type": "string"
+            },
+            "protocol_version": {
+              "type": "string"
+            },
+            "schema_sha256": {
+              "type": "string"
+            },
+            "type": {
+              "const": "ready",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "protocol_version",
+            "schema_sha256",
+            "core_version"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "in_reply_to": {
+              "type": "string"
+            },
+            "outbox_id": {
+              "type": "string"
+            },
+            "protocol_version": {
+              "type": "string"
+            },
+            "target": {
+              "$ref": "#/$defs/ChatTarget"
+            },
+            "text": {
+              "type": "string"
+            },
+            "type": {
+              "const": "reply",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "protocol_version",
+            "outbox_id",
+            "in_reply_to",
+            "target",
+            "text"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "in_reply_to": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "message": {
+              "type": "string"
+            },
+            "outbox_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "protocol_version": {
+              "type": "string"
+            },
+            "retryable": {
+              "type": "boolean"
+            },
+            "target": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/ChatTarget"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "type": {
+              "const": "error",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "protocol_version",
+            "code",
+            "message",
+            "retryable"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            },
+            "protocol_version": {
+              "type": "string"
+            },
+            "type": {
+              "const": "fatal",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "protocol_version",
+            "code",
+            "message"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "InboundMessage": {
+      "additionalProperties": false,
+      "properties": {
+        "content": {
+          "type": "string"
+        },
+        "message_id": {
+          "type": "string"
+        },
+        "platform_timestamp": {
+          "type": "string"
+        },
+        "received_at_ms": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "sender_id": {
+          "type": "string"
+        },
+        "sender_is_bot": {
+          "type": "boolean"
+        },
+        "target": {
+          "$ref": "#/$defs/ChatTarget"
+        }
+      },
+      "required": [
+        "message_id",
+        "sender_id",
+        "sender_is_bot",
+        "target",
+        "content",
+        "platform_timestamp",
+        "received_at_ms"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/starSumi/qq-to-codex-app-server-relay/schemas/relay-wire.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "adapter_to_core": {
+      "$ref": "#/$defs/AdapterToCore"
+    },
+    "core_to_adapter": {
+      "$ref": "#/$defs/CoreToAdapter"
+    }
+  },
+  "required": [
+    "adapter_to_core",
+    "core_to_adapter"
+  ],
+  "title": "QQ to Codex relay wire protocol",
+  "type": "object"
+}
