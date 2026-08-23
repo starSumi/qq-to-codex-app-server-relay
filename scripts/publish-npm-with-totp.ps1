@@ -42,11 +42,16 @@ function ConvertFrom-Base32([string]$InputText) {
   $bits = 0
   $bytes = [Collections.Generic.List[byte]]::new()
 
+  $position = 0
   foreach ($character in $InputText.ToUpperInvariant().ToCharArray()) {
+    $position++
+    if ($character -eq "-" -or $character -eq "_") {
+      continue
+    }
     if ($character -eq "=") { break }
     $index = $alphabet.IndexOf($character)
     if ($index -lt 0) {
-      throw "TOTP secret is not valid Base32."
+      throw "TOTP secret is not valid Base32. Use the authenticator setup key or otpauth URI, not a recovery code, password, or npm token (invalid character at position $position)."
     }
 
     $buffer = ($buffer -shl 5) -bor $index
@@ -72,6 +77,9 @@ function Get-Totp([string]$Secret) {
   }
   if (-not $normalized) {
     throw "TOTP secret is empty."
+  }
+  if ($normalized.Length -gt 128) {
+    throw "The supplied value is $($normalized.Length) characters long. That is unlikely to be an npm TOTP setup key; use the authenticator setup key or otpauth URI, not a recovery code, password, npm token, or exported credential blob."
   }
 
   $key = ConvertFrom-Base32 $normalized

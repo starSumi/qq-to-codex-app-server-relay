@@ -124,6 +124,10 @@ not written to disk or printed. A secret already held in an environment
 variable can be selected with `-SecretEnvironmentVariable NAME`; a local
 secret file can be selected with `-SecretFile PATH`.
 
+The input must be the authenticator setup key (Base32) or an `otpauth://` URI.
+npm recovery codes are not TOTP setup keys and cannot be used to calculate the
+six-digit publish OTP; use them only in npm's web recovery flow.
+
 ## Configure
 
 After the build, the default first run needs no QQ credential variables:
