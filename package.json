@@ -58,7 +58,7 @@
   },
   "dependencies": {
     "@tencent-connect/qqbot-connector": "1.2.0",
-    "@tencent-connect/qqbot-nodejs": "1.0.4",
+    "@tencent-connect/qqbot-nodejs": "1.0.5",
     "ajv": "8.20.0"
   }
 }
